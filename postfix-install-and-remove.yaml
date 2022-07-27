@@ -1,0 +1,20 @@
+- name: Install Postfix
+  hosts: test
+  tasks:
+  - name: postfix
+    ansible.builtin.yum:
+       name: postfix
+       state: latest
+    notify:
+      - init postfix
+      - drop postfix
+
+  handlers:
+    - name: drop postfix
+      ansible.builtin.yum:
+        name: postfix
+        state: absent
+    - name: init postfix
+      ansible.builtin.yum:
+        name: postfix
+        state: latest

@@ -1,0 +1,23 @@
+---
+- name: Create New User
+  hosts: test
+  become: true
+  gather_facts: false
+ 
+  tasks:
+    - name: Create User
+      ansible.builtin.user:
+        name: user1
+        state: present
+        shell: /bin/bash
+        password: 123
+        update_password: on_create
+        groups: root
+        append: yes
+
+    - name: Create a 2048-bit SSH key for user jsmith in ~user1/.ssh/id_rsa
+      ansible.builtin.user:
+        name: user1
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
