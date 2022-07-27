@@ -1,0 +1,23 @@
+- name: Intall MySql
+  gather_facts: No
+  hosts: test
+  
+  tasks: 
+    - name: install mysql server
+      yum: 
+        name: mysql, mysql-server
+        state: latest
+
+    - name: activate mysql
+      service:
+        name: mysqld
+        state: started
+        enabled: yes
+
+    - name: check status mysql
+      command: systemctl status mysqld
+      register: result
+    
+    - name: show report
+      debug:
+       var: result
