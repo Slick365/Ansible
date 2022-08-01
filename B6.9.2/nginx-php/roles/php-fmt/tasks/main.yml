@@ -1,0 +1,20 @@
+- name: Add epel-release repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Installing php
+  yum:
+    name:
+      - php
+      - php-common
+      - php-cli
+      - php-gd
+      - php-curl
+      - php-mysqlnd
+      - php-fpm
+      - php-mysqli
+      - php-intl
+      - php-zip
+      - php-soap
+    state: latest

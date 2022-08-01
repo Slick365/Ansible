@@ -1,0 +1,7 @@
+- name: install and configure the web server
+  hosts: test
+  remote_user: root
+  become: True
+  roles:
+    - nginx
+    - php-fmt
