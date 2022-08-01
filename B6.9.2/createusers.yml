@@ -1,0 +1,52 @@
+---
+
+- hosts: test
+  become: true
+  gather_facts: false
+ 
+  tasks:
+   - name: Add group "superuser"
+     group:
+       name: superuser
+       state: present
+       
+   - name: Add group "wheel"
+     group:
+       name: wheel
+       state: present
+
+   - name: Allow 'superuser' group to have passwordless sudo
+     lineinfile:
+       dest: /etc/sudoers
+       state: present
+       regexp: '^%wheel'
+       line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+       validate: 'visudo -cf %s'
+
+   - name: Add user "user1" to remote server
+     user:
+       name: user1
+       comment: "Privileged User"
+       uid: 2001
+       groups: wheel
+       group: superuser
+       append: yes
+       shell: /bin/bash
+       createhome: yes
+       generate_ssh_key: yes
+       ssh_key_bits: 2048
+       ssh_key_file: .ssh/id_rsa
+
+   - name: Add user "user2" to remote server
+     user:
+       name: user2
+       comment: "Privileged User"
+       uid: 2002
+       groups: wheel
+       group: superuser
+       append: yes
+       createhome: yes
+       shell: /bin/bash
+       generate_ssh_key: yes
+       ssh_key_bits: 2048
+       ssh_key_file: .ssh/id_rsa
