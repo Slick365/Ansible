@@ -1,0 +1,9 @@
+---
+  - name: change config
+     teamplate:
+        src=nginx.conf.tpl
+        dest=/opt/nginx/ansible/nginx.conf
+  - name: restart nginx
+     service:
+       name=nginx
+       state=restarted

@@ -1,0 +1,9 @@
+- name: install and configure the web server
+  hosts: test
+  remote_user: root
+  become: True
+  roles:
+    - role: http
+      tags: [http, user]
+    - role: php
+      tags: [php, user]

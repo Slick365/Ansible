@@ -1,0 +1,34 @@
+---        
+- name: "Add epel-release repo"
+  ansible.builtin.service:
+      name: "epel-release"
+      tate: present
+  tags: http
+      
+- name: "Install nginx"
+  ansible.builtin.service:
+    name: nginx
+    state: present
+  tags: http
+      
+- name: "Start NGiNX"
+  ansible.builtin.service:
+    name: nginx
+    state: started
+  tags: http
+      
+- name: "Replace index.html"
+  ansible.builtin.copy:
+    src: "/files/"
+    dest: "/usr/share/nginx/html"
+  tags: http
+
+- name: Reload nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+  tags: http
+        
+  handlers:
+    - name: change config 
+# tasks file for nginx

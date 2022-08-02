@@ -1,0 +1,37 @@
+---
+  tasks:
+   - name: Add group "superuser"
+     group:
+       name: superuser
+       state: present
+      tags: user
+             
+   - name: Add group "wheel"
+     group:
+       name: wheel
+       state: present
+     tags: user
+     
+   - name: Allow 'superuser' group to have passwordless sudo
+     lineinfile:
+       dest: /etc/sudoers
+       state: present
+       regexp: '^%wheel'
+       line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+       validate: 'visudo -cf %s'
+     tags: user
+      
+   - name: Add user "user" to remote server
+     user:
+       name: user1
+       comment: "Privileged User"
+       uid: 2001
+       groups: wheel
+       group: superuser
+       append: yes
+       shell: /bin/bash
+       createhome: yes
+       generate_ssh_key: yes
+       ssh_key_bits: 2048
+       ssh_key_file: .ssh/id_rsa
+# tasks file for user
