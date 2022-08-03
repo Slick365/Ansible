@@ -1,0 +1,11 @@
+---
+# This playbook install docker and docker-compose to the target server.
+- hosts: app
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - 00_preparing
+    - { role: 01_centos_docker-ce, when: ansible_distribution == "CentOS" }
+    - { role: 01_ubuntu_docker-ce, when: ansible_distribution == "Ubuntu" }
+    - 02_docker-compose

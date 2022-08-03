@@ -1,0 +1,6 @@
+---
+# Get OS version of target server
+
+- name: Check OS version of target server
+  ansible.builtin.debug:
+    var: ansible_distribution
